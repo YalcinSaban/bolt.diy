@@ -27,4 +27,4 @@ RUN pnpm run build
 EXPOSE 5173
 
 # Uygulamayı başlat
-CMD ["pnpm", "run", "start"]
+CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
