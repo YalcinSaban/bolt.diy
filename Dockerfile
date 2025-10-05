@@ -8,7 +8,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# pnpm'i global olarak yükle (DOĞRU VERSİYON!)
+# pnpm'i global olarak yükle
 RUN npm install -g pnpm@9.14.4
 
 # Package dosyalarını kopyala
@@ -20,11 +20,8 @@ RUN pnpm install --frozen-lockfile
 # Tüm kaynak kodları kopyala
 COPY . .
 
-# Build yap
-RUN pnpm run build
-
 # Port aç
 EXPOSE 5173
 
-# Uygulamayı başlat
+# Development modunda çalıştır (build yapmadan)
 CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
