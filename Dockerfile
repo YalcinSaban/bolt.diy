@@ -8,8 +8,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# pnpm'i global olarak yükle
-RUN npm install -g pnpm@9.1.0
+# pnpm'i global olarak yükle (DOĞRU VERSİYON!)
+RUN npm install -g pnpm@9.14.4
 
 # Package dosyalarını kopyala
 COPY package.json pnpm-lock.yaml* ./
