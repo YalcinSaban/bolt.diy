@@ -2,26 +2,32 @@ FROM node:20.18.0
 
 WORKDIR /app
 
-# Sistem paketlerini güncelle ve Git yükle
+# Git yükle
 RUN apt-get update && \
     apt-get install -y git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# pnpm'i global olarak yükle
+# pnpm yükle
 RUN npm install -g pnpm@9.14.4
 
-# Package dosyalarını kopyala
+# Dosyaları kopyala
 COPY package.json pnpm-lock.yaml* ./
 
 # Bağımlılıkları yükle
 RUN pnpm install --frozen-lockfile
 
-# Tüm kaynak kodları kopyala
+# Kaynak kodları kopyala
 COPY . .
 
-# Port aç
+# Git bilgisini kopyala (eğer varsa)
+COPY .git .git 2>/dev/null || true
+
+# Production build yap
+RUN pnpm run build
+
+# Port
 EXPOSE 5173
 
-# Development modunda çalıştır (build yapmadan)
-CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+# Preview modunda başlat (production build'i serve eder)
+CMD ["pnpm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "5173"]
