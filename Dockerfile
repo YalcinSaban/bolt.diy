@@ -20,14 +20,11 @@ RUN pnpm install --frozen-lockfile
 # Kaynak kodları kopyala
 COPY . .
 
-# Git bilgisini kopyala (eğer varsa)
-COPY .git .git 2>/dev/null || true
-
 # Production build yap
 RUN pnpm run build
 
 # Port
 EXPOSE 5173
 
-# Preview modunda başlat (production build'i serve eder)
+# Preview modunda başlat
 CMD ["pnpm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "5173"]
